@@ -59,7 +59,7 @@ function reactToClick(state,x,y){
   }
  }
 }
-function ensureAudio(){if(!audio||audio.state==='closed'){const AudioContextClass=window.AudioContext||window.webkitAudioContext;if(!AudioContextClass)return null;audio=new AudioContextClass();audioOut=audio.createDynamicsCompressor();audioOut.threshold.value=-8;audioOut.knee.value=5;audioOut.ratio.value=10;audioOut.attack.value=.003;audioOut.release.value=.16;audioOut.connect(audio.destination)}if(audio.state!=='running')audio.resume().catch(()=>{});return audio}
+function ensureAudio(){if(!audio||audio.state==='closed'){try{if(navigator.audioSession)navigator.audioSession.type='playback'}catch{}const AudioContextClass=window.AudioContext||window.webkitAudioContext;if(!AudioContextClass)return null;audio=new AudioContextClass();audioOut=audio.createDynamicsCompressor();audioOut.threshold.value=-8;audioOut.knee.value=5;audioOut.ratio.value=10;audioOut.attack.value=.003;audioOut.release.value=.16;audioOut.connect(audio.destination)}if(audio.state!=='running')audio.resume().catch(()=>{});return audio}
 function voice(kind,note,velocity=.35,duration=.28,scene=activeScene){
  if(!soundOn)return;
  ensureAudio();
